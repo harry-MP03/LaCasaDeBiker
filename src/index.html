@@ -1,17 +1,262 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <title>Vanilla JavaScript App</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LA CASA DEL BIKER — Repuestos & Taller</title>
+  <meta name="description" content="LA CASA DEL BIKER: Venta de repuestos para moto y servicio de moto taller en Barrio La Habana, Managua. Cambios de aceite, frenos, electricidad y más." />
+  <style>
+    :root{
+      --rojo:#E53935; --negro:#121212; --gris:#f3f4f6; --texto:#1f2937; --blanco:#ffffff; --acento:#FFB703; --suave:#9ca3af;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;color:var(--texto);background:var(--gris)}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;height:auto;display:block}
+    .container{width:min(1200px,92%);margin-inline:auto}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid #e5e7eb}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0;position:relative}
+    .brand{display:flex;align-items:center;gap:.75rem}
+    .brand-logo{width:44px;height:44px;background:var(--negro);border-radius:10px;display:grid;place-items:center;color:var(--blanco);font-weight:700}
+    .brand h1{font-size:1.08rem;margin:0}
+    .tag{font-size:.72rem;color:var(--blanco);background:var(--rojo);padding:.2rem .5rem;border-radius:999px;margin-left:.25rem}
+    .nav-links{display:flex;gap:1rem;align-items:center}
+    .menu-btn{display:none;border:0;background:var(--negro);color:#fff;padding:.55rem .7rem;border-radius:10px;font-weight:700}
+    .btn{display:inline-block;padding:.7rem 1rem;border-radius:10px;font-weight:600}
+    .btn-primary{background:var(--rojo);color:var(--blanco)}
+    .btn-outline{border:2px solid var(--negro);color:var(--negro)}
+
+    /* Hero */
+    .hero{background:linear-gradient(180deg,#ffffff, #f8f8f8);} 
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:2rem;align-items:center;padding:3rem 0}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--negro);color:var(--blanco);padding:.35rem .6rem;border-radius:999px;font-size:.78rem}
+    .hero h2{font-size:clamp(1.6rem, 6vw, 3rem);line-height:1.1;margin:.6rem 0}
+    .hero p{color:#374151;max-width:50ch}
+    .check{display:flex;gap:.5rem;align-items:center;margin:.35rem 0;color:#374151}
+    .hero-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1rem}
+    .hero-card{background:var(--negro);border-radius:18px;padding:1rem}
+    .hero-card img{border-radius:12px}
+
+    /* Section */
+    section{padding:3rem 0}
+    .section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem}
+    h3{font-size:1.5rem;margin:0}
+    .pill{background:var(--acento);color:#111827;font-weight:700;font-size:.75rem;padding:.25rem .6rem;border-radius:999px}
+
+    /* Grid cards */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1rem}
+    .card{grid-column:span 4;background:#fff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .card-body{padding:1rem;display:flex;flex-direction:column;gap:.4rem}
+    .price{font-size:1.1rem;font-weight:800;color:var(--rojo)}
+    .badge-mini{display:inline-block;background:#fee2e2;color:#991b1b;border:1px dashed #fca5a5;font-size:.72rem;padding:.15rem .45rem;border-radius:999px}
+
+    /* Services */
+    .service{grid-column:span 4;background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem}
+    .service h4{margin:.2rem 0}
+    .service ul{padding-left:1.1rem;margin:.4rem 0}
+
+    /* Promo strip */
+    .promo{background:linear-gradient(135deg,var(--negro),#2b2b2b);color:var(--blanco);border-radius:18px;padding:1.4rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+
+    /* Testimonials */
+    .testi{grid-column:span 6;background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem}
+    .testi .name{font-weight:700}
+
+    /* Contact */
+    .contact{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    form{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:1rem;display:grid;gap:.7rem}
+    input,textarea{width:100%;padding:.8rem;border:1px solid #d1d5db;border-radius:10px;font:inherit}
+    label{font-size:.9rem;color:#374151}
+    .map{background:#fff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden}
+
+    /* Footer */
+    footer{background:#0b0b0b;color:#d1d5db;margin-top:2rem}
+    .foot{display:grid;grid-template-columns:2fr 1fr 1fr;gap:1.2rem;padding:2rem 0}
+    .foot a{color:#e5e7eb}
+    .copy{border-top:1px solid #111827;padding:1rem 0;color:#9ca3af;font-size:.9rem}
+
+    /* Floating WhatsApp */
+    .wsp{position:fixed;right:18px;bottom:18px;background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:900;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+
+    /* Responsive */
+    @media (max-width: 960px){
+      .hero-grid{grid-template-columns:1fr;padding:2rem 0}
+      .grid .card{grid-column:span 6}
+      .service{grid-column:span 6}
+      .testi{grid-column:span 12}
+      .contact{grid-template-columns:1fr}
+      .foot{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 640px){
+      .grid .card{grid-column:span 12}
+      .service{grid-column:span 12}
+      .foot{grid-template-columns:1fr}
+      .nav{padding:.6rem 0}
+    }
+  </style>
 </head>
-
 <body>
-  <main>
-    <h1>Vanilla JavaScript App</h1>
-  </main>
-</body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-logo">LB</div>
+        <div>
+          <h1>LA CASA DEL BIKER <span class="tag">Taller & Repuestos</span></h1>
+          <small style="color:#6b7280">Repuestos de calidad • Servicio de taller confiable</small>
+        </div>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="#repuestos">Repuestos</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#promos">Promos</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#contacto" class="btn btn-primary">Contactar</a>
+      </nav>
+    </div>
+  </header>
 
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge">🏍️ Envíos el mismo día • Garantía</span>
+        <h2>Todo para tu moto en un solo lugar: <span style="color:var(--rojo)">repuestos</span> + <span style="color:var(--rojo)">taller</span> en Barrio La Habana</h2>
+        <p>Atendemos todas las marcas. Asesoría técnica, instalación en sitio y precios competitivos. ¡Mantén tu moto siempre a punto!</p>
+        <div class="check">✔ Cambio de aceite y filtros</div>
+        <div class="check">✔ Frenos, suspensión y llantas</div>
+        <div class="check">✔ Eléctrico y diagnóstico</div>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#contacto">Cotizar ahora</a>
+          <a class="btn btn-outline" href="#repuestos">Ver catálogo</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <img src="https://images.unsplash.com/photo-1518655048521-f130df041f66?q=80&w=1600&auto=format&fit=crop" alt="Moto en taller" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ... Aquí va todo tu catálogo, servicios, promos, testimonios y nosotros (idénticos a lo que ya tienes) ... -->
+
+  <!-- Contacto -->
+  <section id="contacto">
+    <div class="container">
+      <div class="section-title">
+        <h3>Contacto</h3>
+        <span class="pill">Respondemos rápido</span>
+      </div>
+      <div class="contact">
+        <!-- FORMULARIO NUEVO (API REAL) -->
+        <form id="contactForm">
+          <div>
+            <label for="nombres">Nombres</label>
+            <input id="nombres" name="nombres" type="text" placeholder="Tus nombres" required />
+          </div>
+          <div>
+            <label for="apellidos">Apellidos</label>
+            <input id="apellidos" name="apellidos" type="text" placeholder="Tus apellidos" required />
+          </div>
+          <div>
+            <label for="correo">Correo electrónico</label>
+            <input id="correo" name="correo" type="email" placeholder="tuemail@ejemplo.com" required />
+          </div>
+          <div>
+            <label for="asunto">Asunto</label>
+            <input id="asunto" name="asunto" type="text" placeholder="Motivo de contacto" required />
+          </div>
+          <div>
+            <label for="comentarios">Mensaje</label>
+            <textarea id="comentarios" name="comentarios" rows="5" placeholder="¿Qué repuesto o servicio necesitas?" required></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">Enviar</button>
+        </form>
+        <div class="map">
+          <iframe title="LA CASA DEL BIKER — Barrio La Habana, Managua" src="https://www.google.com/maps?q=Barrio%20La%20Habana%2C%20Managua&output=embed" width="100%" height="420" style="border:0" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container foot">
+      <div>
+        <h4 style="color:#fff;margin:.2rem 0">LA CASA DEL BIKER</h4>
+        <p>Horario: Lun–Sáb 8:00 am – 6:00 pm · Dom 9:00 am – 1:00 pm</p>
+        <p>Dirección: Barrio La Habana, Managua</p>
+        <p>Atendido por su propietario, Douglas Campos</p>
+      </div>
+      <div>
+        <h4 style="color:#fff">Enlaces</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:.4rem">
+          <li><a href="#repuestos">Catálogo</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#promos">Promos</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#fff">Contacto</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:.4rem">
+          <li>📞 505 77371871</li>
+          <li>📧 ventas@lacasadelbiker.example</li>
+          <li>🟢 <a href="https://wa.me/50577371871" target="_blank">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container copy">© <span id="year"></span> LA CASA DEL BIKER. Todos los derechos reservados.</div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a class="wsp" href="https://wa.me/50577371871?text=Hola%2C%20quiero%20informaci%C3%B3n%20de%20repuestos%20o%20taller" target="_blank" aria-label="Abrir WhatsApp">✆</a>
+
+  <script>
+    // Año automático en footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Menú móvil
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn?.addEventListener('click',()=>navLinks.classList.toggle('open'));
+    navLinks?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
+
+    // Envío de formulario a la API real
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = {
+        Nombres: document.getElementById('nombres').value.trim(),
+        Apellidos: document.getElementById('apellidos').value.trim(),
+        Email: document.getElementById('correo').value.trim(),
+        Asunto: document.getElementById('asunto').value.trim(),
+        Mensaje: document.getElementById('comentarios').value.trim()
+      };
+
+      try {
+        const response = await fetch("https://contactenos-backend2025.azurewebsites.net/Catalogos/Contactenos/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          alert("✅ ¡Tu mensaje fue enviado con éxito!");
+          form.reset();
+        } else {
+          const errorText = await response.text();
+          alert("❌ Error al enviar: " + errorText);
+        }
+      } catch (error) {
+        alert("⚠️ No se pudo conectar con el servidor.");
+        console.error(error);
+      }
+    });
+  </script>
+</body>
 </html>
+
